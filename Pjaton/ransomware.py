@@ -1,56 +1,62 @@
 from cryptography.fernet import Fernet as fr
+from time import time, sleep
+import os
 
 #ByBQJFE_OCJU8_1V9nVlbrBjeaqLUyBH-CdksQpWctg=  key
 key = "ByBQJFE_OCJU8_1V9nVlbrBjeaqLUyBH-CdksQpWctg="
 
-def encryptMessage(message):
-    f = fr(key)
-    message = message.encode()
-    encryptedMessage = f.encrypt(message)
-    return encryptedMessage
-
-def decryptMessage(encryptedMessage):
-    f = fr(key)
-    decryptedMessage = f.decrypt(encryptedMessage)
-    return decryptedMessage.decode()
-
-
-def encryptFile(filePath, key = key):
-    # Create a new Fernet object
+def encryptDecryptMessage(message, option):
     cipher = fr(key)
+    if option == "encrypt":
+        return cipher.encrypt(message)
+    elif option == "decrypt":
+        return cipher.decrypt(message)
 
-    # Open the file to encrypt
-    with open(filePath, "rb") as fileToEncrypt:
-        # Read the contents of the file
-        fileData = fileToEncrypt.read()
-
-        # Encrypt the data
-        encryptedData = cipher.encrypt(fileData)
-
-    # Overwrite the file with the encrypted data
-    with open(filePath, "wb") as fileToEncrypt:
-        fileToEncrypt.write(encryptedData)
-    return filePath
-
-def decryptFile(filePath, key = key):
-    # Create a new Fernet object
+def encryptDecryptFiles(filePaths, option, count = 0, startTime = time()):
     cipher = fr(key)
+    if option == "encrypt":
+        print("Starting to encrypt")
+        for file in filePaths:
+            count += 1
+            with open(file, "rb") as fileToEncrypt:
+                fileData = fileToEncrypt.read()
+                encryptData = cipher.encrypt(fileData)
+            with open(file, "wb") as fileToEncrypt:
+                fileToEncrypt.write(encryptData)
+            print("Number of encrypted files:", count, "/", len(filePaths))
+    elif option == "decrypt":
+        print("Starting to decrypt")
+        for file in filePaths:
+            count+=1
+            with open(file, "rb") as fileToEncrypt:
+                fileData = fileToEncrypt.read()
+                encryptData = cipher.decrypt(fileData)
+            with open(file, "wb") as fileToEncrypt:
+                fileToEncrypt.write(encryptData)
+            print("Number of decrypted files:", count, "/", len(filePaths))
+    print("It took: ", time() - startTime, "seconds")
 
-    # Open the file to decrypt
-    with open(filePath, "rb") as fileToDecrypt:
-        # Read the contents of the file
-        encryptedData = fileToDecrypt.read()
+def encryptDecryptFolder(folderPath, option, startTime = time(), count = 0):
+    cipher = fr(key)
+    files = os.listdir(folderPath)
+    if option == "encrypt":
+        for file in files:
+            count += 1
+            with open(file, "rb") as fileToEncrypt:
+                fileData = fileToEncrypt.read()
+                encryptData = cipher.encrypt(fileData)
+            with open(file, "wb") as fileToEncrypt:
+                fileToEncrypt.write(encryptData)
+            print("Number of encrypted files:", count, "/", len(files))
+    if option == "decrypt":
+        for file in files:
+            count += 1
+            with open(file, "rb") as fileToEncrypt:
+                fileData = fileToEncrypt.read()
+                encryptData = cipher.decrypt(fileData)
+            with open(file, "wb") as fileToEncrypt:
+                fileToEncrypt.write(encryptData)
+            print("Number of encrypted files:", count, "/", len(files))
+    print("It took:", time() - startTime, "seconds")
 
-        # Decrypt the data
-        decryptedData = cipher.decrypt(encryptedData)
-
-    # Overwrite the file with the decrypted data
-    with open(filePath, "wb") as fileToDecrypt:
-        fileToDecrypt.write(decryptedData)
-    return filePath
-
-
-#print(encryptFile("./test.txt"))
-#print(decryptFile("./test.txt"))
-
-print(decryptFile("./test.txt"))
+files = ["./test.txt", "./test2.txt", "./test3.txt"]
