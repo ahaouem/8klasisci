@@ -1,14 +1,18 @@
 import math
 
-# stałe
-G = 6.67428e-11  # stała grawitacji
-M = 5.9722e24  # masa Ziemi
-R = 6371e3  # promień Ziemi
+def massOfEarthUsingPendulum(lenghtOfPendulum, fallTime, earthDiameter, gravitationalConstant):
+    g = (math.pi**2 * 2/fallTime ** 2) / lenghtOfPendulum * 2
+    massOfEarth = g * (math.pow(earthDiameter, 2) /gravitationalConstant)
+    return massOfEarth
 
-# okres wahadła
-T = 2.83 * math.pi * math.sqrt(R / (G * M))
+def fallOfPendulum(lenghtOfPendulum, gravity):
+    fallTime = math.sqrt(lenghtOfPendulum/gravity) * math.pi * 2
+    return fallTime
 
-# masa Ziemi
-mass = M
+earthDiameter = 6378.1 * 1000
+gravitationalConstant = 6.67408 * (10 ** -11)
+lenghtOfPendulum = 1
+g = 9.81
 
-print(mass)
+fallOfPendulum(lenghtOfPendulum, g)
+print(str(massOfEarthUsingPendulum(lenghtOfPendulum, fallOfPendulum(lenghtOfPendulum, g), earthDiameter, gravitationalConstant)) + "kg")
