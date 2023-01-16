@@ -2,14 +2,9 @@ import math
 import numpy as np
 
 def massOfEarthUsingPendulum(lenghtOfPendulum, fallTime, earthDiameter, gravitationalConstant):
-    #g = (((6.67 * 10**-11) * (5.972 * 10**24)) / (6371 * 1000)**2)
     g = (4*math.pi**2 * lenghtOfPendulum) / (fallTime**2)
     massOfEarth = g * ((earthDiameter)**2 / gravitationalConstant)
     return massOfEarth
-
-def fallOfPendulum(lenghtOfPendulum, gravity):
-    fallTime = math.sqrt(lenghtOfPendulum/gravity) * math.pi * 2
-    return fallTime
 
 earthDiameter = 6378.1 * 1000
 gravitationalConstant = 6.67408 * (10 ** -11)
