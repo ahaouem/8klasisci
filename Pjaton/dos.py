@@ -1,8 +1,8 @@
 import socket
 
 # Ustawienia klienta
-IP_ADDRESS = "192.168.31.21"
-PORT = 1234
+IP_ADDRESS = "192.168.31.21" # tu jest ip na ktore kierujemy atak
+PORT = 1234  #
 
 # Tworzymy gniazdo
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
