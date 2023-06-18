@@ -32,6 +32,7 @@ for i in range(1, 11):
         continue
     print(i)
 
+for i in range kocham kubusia
 
 
 
